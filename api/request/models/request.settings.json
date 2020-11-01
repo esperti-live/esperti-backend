@@ -15,13 +15,19 @@
     "description": {
       "type": "richtext"
     },
-    "profile": {
-      "via": "requests",
-      "model": "profile"
+    "user": {
+      "plugin": "users-permissions",
+      "model": "user",
+      "via": "requests"
     },
     "slug": {
       "type": "uid",
       "targetField": "title"
+    },
+    "tags": {
+      "collection": "tag",
+      "via": "requests",
+      "dominant": true
     }
   }
 }

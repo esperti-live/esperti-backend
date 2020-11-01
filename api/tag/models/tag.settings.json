@@ -15,6 +15,10 @@
     "skills": {
       "via": "tag",
       "collection": "skill"
+    },
+    "requests": {
+      "via": "tags",
+      "collection": "request"
     }
   }
 }
