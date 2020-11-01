@@ -16,9 +16,9 @@ module.exports = {
     async find(ctx) {
         let entities;
         if (ctx.query._q) {
-        entities = await strapi.services.request.search(ctx.query, []);
+            entities = await strapi.services.request.search(ctx.query, []);
         } else {
-        entities = await strapi.services.request.find(ctx.query, []);
+            entities = await strapi.services.request.find(ctx.query, []);
         }
 
         return entities.map(entity => sanitizeEntity(entity, { model: strapi.models.request }));
@@ -38,10 +38,9 @@ module.exports = {
      * Your request is automatically attached to your profile
      */
     async create(ctx) {
-        const {profile} = ctx.state.user.profile
-        console.log("request.create profile", profile)
+        const {user} = ctx.state
 
-        const entity = await strapi.services.request.create({...ctx.request.body, profile});
+        const entity = await strapi.services.request.create({...ctx.request.body, user: user.id});
         return sanitizeEntity(entity, { model: strapi.models.request });
     },
 };
