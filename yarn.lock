@@ -9247,10 +9247,10 @@ strapi-plugin-email@3.1.1:
     strapi-provider-email-sendmail "3.1.1"
     strapi-utils "3.1.1"
 
-strapi-plugin-magic@^0.3.1:
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/strapi-plugin-magic/-/strapi-plugin-magic-0.3.1.tgz#53cb72a51718661f9a24c308be16d8b28a231a12"
-  integrity sha512-SzkXAF8AOw+DRVlnvmiyTN4bjalcM5ohHMw3/lrfMieD4/Wbuq3iGjayWVhhJm2SBVjqOa15Zi9VRNQT+W1e0w==
+strapi-plugin-magic@^0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/strapi-plugin-magic/-/strapi-plugin-magic-0.3.2.tgz#4d9e39ada26e6f3ec7fed6d2271d2dc570608743"
+  integrity sha512-gOFelPqUWCmSyx+ysye1pOH7la06VO34lX2ZaLMQ9Y1z/dL6MLudoQvxUrwZlFj5NqKOt2ip6mcalfd+IQMMxg==
   dependencies:
     "@buffetjs/core" "^3.3.1"
     "@magic-sdk/admin" "^1.2.2"
