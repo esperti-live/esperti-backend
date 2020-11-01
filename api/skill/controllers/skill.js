@@ -17,9 +17,9 @@ module.exports = {
         
         let entities;
         if (ctx.query._q) {
-          entities = await strapi.services.skill.search({...ctx.query, profile: user.id}, []);
+          entities = await strapi.services.skill.search({...ctx.query, profile: profile.id}, []);
         } else {
-          entities = await strapi.services.skill.find({...ctx.query, profile: user.id}, []);
+          entities = await strapi.services.skill.find({...ctx.query, profile: profile.id}, []);
         }
     
         return entities.map(entity => sanitizeEntity(entity, { model: strapi.models.skill }));
