@@ -13,12 +13,12 @@
       "type": "string"
     },
     "skills": {
-      "via": "tag",
-      "collection": "skill"
+      "collection": "skill",
+      "via": "tag"
     },
     "requests": {
-      "via": "tags",
-      "collection": "request"
+      "collection": "request",
+      "via": "tags"
     }
   }
 }

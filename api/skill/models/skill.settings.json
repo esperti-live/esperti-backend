@@ -16,8 +16,8 @@
       "type": "text"
     },
     "tag": {
-      "model": "tag",
-      "via": "skills"
+      "via": "skills",
+      "model": "tag"
     },
     "profile": {
       "via": "skills",
