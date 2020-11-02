@@ -18,6 +18,14 @@
     },
     {
       "method": "GET",
+      "path": "/profiles/my",
+      "handler": "profile.myProfile",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
       "path": "/profiles/:id",
       "handler": "profile.findOne",
       "config": {

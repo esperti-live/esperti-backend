@@ -7,6 +7,12 @@ const { sanitizeEntity } = require('strapi-utils');
  */
 
 module.exports = {
+  async myProfile(ctx) {
+    const { id } = ctx.state.user.profile;
+
+    const entity = await strapi.services.profile.findOne({ id: id });
+    return sanitizeEntity(entity, { model: strapi.models.profile });
+  },
     /**
      * May break the image on aws
      */
