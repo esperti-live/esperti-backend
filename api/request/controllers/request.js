@@ -42,7 +42,6 @@ module.exports = {
         const {user} = ctx.state
         const {title} = ctx.request.body
         const slug = slugify(`${(title)} - ${new Date().getTime()}`)
-        console.log("slug", slug)
         const entity = await strapi.services.request.create({...ctx.request.body, user: user.id, slug});
         return sanitizeEntity(entity, { model: strapi.models.request });
     },
