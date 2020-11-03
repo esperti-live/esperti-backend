@@ -11,7 +11,7 @@ module.exports = {
     try{
       const { id } = ctx.state.user.profile;
 
-      const entity = await strapi.services.profile.findOne({ id: id }, ["profile.image"]);
+      const entity = await strapi.services.profile.findOne({ id }, ["profile.image"]);
       return sanitizeEntity(entity, { model: strapi.models.profile });
     } catch(err){
       return null
