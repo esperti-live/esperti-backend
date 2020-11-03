@@ -23,9 +23,9 @@ module.exports = {
     async find(ctx) {
         let entities;
         if (ctx.query._q) {
-            entities = await strapi.services.profile.search(ctx.query, ["profile.image"]);
+            entities = await strapi.services.profile.search(ctx.query, ["image"]);
         } else {
-            entities = await strapi.services.profile.find(ctx.query, ["profile.image"]);
+            entities = await strapi.services.profile.find(ctx.query, ["image"]);
         }
 
         return entities.map(entity => sanitizeEntity(entity, { model: strapi.models.profile }));
