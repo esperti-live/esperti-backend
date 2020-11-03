@@ -9,9 +9,8 @@ const slugify = require('slugify')
 module.exports = {
   async myProfile(ctx) {
     try{
-      const { id } = ctx.state.user.profile;
-
-      const entity = await strapi.services.profile.findOne({ id }, ["profile.image"]);
+      const { profile } = ctx.state.user;
+      const entity = await strapi.services.profile.findOne({ id: profile });
       return sanitizeEntity(entity, { model: strapi.models.profile });
     } catch(err){
       return null
