@@ -8,10 +8,14 @@ const { sanitizeEntity } = require('strapi-utils');
 
 module.exports = {
   async myProfile(ctx) {
-    const { id } = ctx.state.user.profile;
+    try{
+      const { id } = ctx.state.user.profile;
 
-    const entity = await strapi.services.profile.findOne({ id: id });
-    return sanitizeEntity(entity, { model: strapi.models.profile });
+      const entity = await strapi.services.profile.findOne({ id: id }, ["profile.image"]);
+      return sanitizeEntity(entity, { model: strapi.models.profile });
+    } catch(err){
+      return null
+    }
   },
     /**
      * May break the image on aws
@@ -19,9 +23,9 @@ module.exports = {
     async find(ctx) {
         let entities;
         if (ctx.query._q) {
-            entities = await strapi.services.profile.search(ctx.query, []);
+            entities = await strapi.services.profile.search(ctx.query, ["profile.image"]);
         } else {
-            entities = await strapi.services.profile.find(ctx.query, []);
+            entities = await strapi.services.profile.find(ctx.query, ["profile.image"]);
         }
 
         return entities.map(entity => sanitizeEntity(entity, { model: strapi.models.profile }));
@@ -41,6 +45,11 @@ module.exports = {
      */
     async create(ctx) {
         const {user} = ctx.state
+
+        if(ctx.state.user && ctx.state.user.profile){
+          return ctx.throw(400, "You already have a profile")
+        }
+
         let entity;
         if (ctx.is('multipart')) {
           const { data, files } = parseMultipartData(ctx);
