@@ -20,12 +20,14 @@ module.exports = {
 
         await strapi.plugins['email'].services.email.send({
             to,
-            from,
+            from: 'strapi@esperti.live',
+            cc: 'strapi@esperti.live',
             bcc: 'alex@esperti.live',
             replyTo: from,
             subject: 'You received a message from Esperti!',
             text: message,
             html: message
-          });
+        });
+        return {status: "Ok"}
     }
 };
