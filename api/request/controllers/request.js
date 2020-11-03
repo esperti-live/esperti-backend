@@ -1,5 +1,6 @@
 'use strict';
 const { sanitizeEntity } = require('strapi-utils');
+const slugify = require('slugify')
 
 /**
  * Read the documentation (https://strapi.io/documentation/v3.x/concepts/controllers.html#core-controllers)
@@ -39,8 +40,10 @@ module.exports = {
      */
     async create(ctx) {
         const {user} = ctx.state
-
-        const entity = await strapi.services.request.create({...ctx.request.body, user: user.id});
+        const {title} = ctx.request.body
+        const slug = slugify(`${(title)} - ${new Date().getTime()}`)
+        console.log("slug", slug)
+        const entity = await strapi.services.request.create({...ctx.request.body, user: user.id, slug});
         return sanitizeEntity(entity, { model: strapi.models.request });
     },
 };
