@@ -7,6 +7,14 @@
       "config": {
         "policies": []
       }
+    },
+    {
+      "method": "POST",
+      "path": "/messages/request/:id",
+      "handler": "messages.sendToRequest",
+      "config": {
+        "policies": []
+      }
     }
   ]
 }
