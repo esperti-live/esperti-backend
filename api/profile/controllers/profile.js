@@ -53,9 +53,11 @@ module.exports = {
         let entity;
         if (ctx.is('multipart')) {
           const { data, files } = parseMultipartData(ctx);
-          entity = await strapi.services.profile.create({...data, user: user.id}, { files });
+          const slug = slugify(data.name)
+          entity = await strapi.services.profile.create({...data, user: user.id, slug}, { files });
         } else {
-          entity = await strapi.services.profile.create({...ctx.request.body, user: user.id});
+          const slug = slugify(ctx.request.body.name)
+          entity = await strapi.services.profile.create({...ctx.request.body, user: user.id, slug});
         }
         return sanitizeEntity(entity, { model: strapi.models.profile });
     },
