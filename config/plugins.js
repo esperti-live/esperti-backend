@@ -1,14 +1,4 @@
 module.exports = ({ env }) => ({
-    email: {
-      provider: 'sendgrid',
-      providerOptions: {
-        apiKey: env('SENDGRID_API_KEY'),
-      },
-      settings: {
-        defaultFrom: 'strapi@esperti.live',
-        defaultReplyTo: 'strapi@esperti.live',
-      },
-    },
     upload: {
       provider: 'aws-s3',
       providerOptions: {
