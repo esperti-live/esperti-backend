@@ -17,8 +17,8 @@
       "via": "tag"
     },
     "requests": {
-      "collection": "request",
-      "via": "tags"
+      "via": "tags",
+      "collection": "request"
     }
   }
 }

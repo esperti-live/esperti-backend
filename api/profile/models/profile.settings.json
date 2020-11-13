@@ -50,6 +50,18 @@
     },
     "rate": {
       "type": "integer"
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "expert",
+        "customer"
+      ],
+      "default": "customer"
+    },
+    "requests": {
+      "via": "profile",
+      "collection": "request"
     }
   }
 }
