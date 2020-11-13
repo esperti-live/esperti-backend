@@ -15,9 +15,8 @@
     "description": {
       "type": "richtext"
     },
-    "user": {
-      "plugin": "users-permissions",
-      "model": "user",
+    "profile": {
+      "model": "profile",
       "via": "requests"
     },
     "slug": {
@@ -25,8 +24,8 @@
       "targetField": "title"
     },
     "tags": {
-      "via": "requests",
       "collection": "tag",
+      "via": "requests",
       "dominant": true
     }
   }

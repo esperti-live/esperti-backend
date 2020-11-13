@@ -53,10 +53,6 @@
       "plugin": "users-permissions",
       "configurable": false
     },
-    "requests": {
-      "via": "user",
-      "collection": "request"
-    },
     "profile": {
       "via": "user",
       "model": "profile"
