@@ -13,6 +13,7 @@
     "sqlite3": "latest"
   },
   "dependencies": {
+    "crypto-random-string": "^3.3.0",
     "knex": "<0.20.0",
     "pg": "^8.4.2",
     "pg-connection-string": "^2.4.0",
