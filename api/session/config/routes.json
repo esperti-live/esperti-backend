@@ -17,14 +17,6 @@
       }
     },
     {
-      "method": "GET",
-      "path": "/sessions/:id",
-      "handler": "session.findOne",
-      "config": {
-        "policies": []
-      }
-    },
-    {
       "method": "POST",
       "path": "/sessions",
       "handler": "session.create",
@@ -60,6 +52,14 @@
       "method": "POST",
       "path": "/sessions/:slug/complete",
       "handler": "session.complete",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/sessions/:slug",
+      "handler": "session.isValid",
       "config": {
         "policies": []
       }

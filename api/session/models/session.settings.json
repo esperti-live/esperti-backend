@@ -28,6 +28,10 @@
     },
     "end_time": {
       "type": "datetime"
+    },
+    "completed": {
+      "type": "boolean",
+      "default": false
     }
   }
 }
