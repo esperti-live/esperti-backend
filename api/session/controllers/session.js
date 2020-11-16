@@ -12,8 +12,12 @@ module.exports = {
    */
   async isValid(ctx) {
     const { slug } = ctx.params;
-    const entity = await strapi.services.session.findOne({ slug });
-    return { validSession: entity && !entity.completed ? true : false };
+    const entity = await strapi.services.session.findOne({ slug }, []);
+    if (entity && !entity.completed) {
+      return { validSession: true, ...entity };
+    }
+
+    return { validSession: false };
   },
 
   async create(ctx) {
