@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "reviews",
+  "info": {
+    "name": "Review"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "rating": {
+      "type": "integer",
+      "max": 5,
+      "min": 1
+    },
+    "comment": {
+      "type": "text"
+    },
+    "user_profile": {
+      "model": "profile",
+      "via": "reviews"
+    },
+    "session": {
+      "model": "session"
+    }
+  }
+}
