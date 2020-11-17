@@ -4,6 +4,7 @@ const cryptoRandomString = require("crypto-random-string");
  * Read the documentation (https://strapi.io/documentation/v3.x/concepts/controllers.html#core-controllers)
  * to customize this controller
  */
+const MINUMUM_SESSION_TIME = 15;
 
 module.exports = {
   /**
@@ -142,8 +143,22 @@ module.exports = {
       { slug, end_time: endDate, time: timeInSeconds, completed: true }
     );
 
+    const expertName = entity.expert_profile.name;
+    const expertSlug = entity.expert_profile.slug;
+    const totalTime =
+      Math.ceil(entity.time / 1000) < MINUMUM_SESSION_TIME
+        ? MINUMUM_SESSION_TIME
+        : Math.ceil(entity.time / 1000);
+    const paymentTotal =
+      (totalTime * entity.expert_profile.rate) / MINUMUM_SESSION_TIME;
     entity = await strapi.services.session.findOne({ slug }, []);
 
-    return { entity };
+    return {
+      ...entity,
+      expertName,
+      expertSlug,
+      totalTime,
+      paymentTotal,
+    };
   },
 };
