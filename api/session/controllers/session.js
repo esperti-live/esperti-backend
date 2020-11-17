@@ -21,40 +21,42 @@ module.exports = {
   },
 
   async create(ctx) {
-    const { user: expert } = ctx.state; // expert profile
-    const { userId } = ctx.request.body;
+    const { user } = ctx.state; // user profile
+    const { expert_id } = ctx.request.body;
 
-    // Make sure userId is passed when making a session.
-    if (!userId) {
-      return ctx.throw(400, "No user id present");
+    // Make sure expert_id is passed when making a session.
+    if (!expert_id) {
+      return ctx.throw(400, "No expert id present");
+    }
+
+    const userProfile = await strapi.services.profile.findOne({
+      id: user.profile,
+    });
+
+    // Check if customer profile exists
+    if (!userProfile) {
+      return ctx.throw(404, "User not found");
+    }
+
+    // Make sure it is the customer that is creating the session
+    if (userProfile.type !== "customer") {
+      return ctx.throw(403, "Only customers can create sessions");
     }
 
     const expertProfile = await strapi.services.profile.findOne({
-      id: expert.profile,
+      id: expert_id,
     });
-
-    // Check if expert profile exists
-    if (!expertProfile) {
-      return ctx.throw(404, "Expert not found");
-    }
-
-    // Make sure it is the expert that is creating the session
-    if (expertProfile.type !== "expert") {
-      return ctx.throw(403, "Only experts can create sessions");
-    }
-
-    const userProfile = await strapi.services.profile.findOne({ id: userId });
     const slug = cryptoRandomString({ length: 10, type: "alphanumeric" });
 
     // Make sure user profile exists
-    if (!userProfile) {
-      return ctx.throw(400, "User could not be found with that id");
+    if (!expertProfile) {
+      return ctx.throw(400, "Expert could not be found with that id");
     }
 
     // Create new session with user profile, expert profile and slug.
     await strapi.services.session.create({
       user_profile: userProfile.id,
-      expert_profile: expert.profile,
+      expert_profile: expertProfile.id,
       slug,
     });
 
