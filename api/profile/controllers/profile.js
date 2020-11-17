@@ -11,9 +11,7 @@ module.exports = {
     try {
       const { profile } = ctx.state.user;
 
-      console.log("here");
       if (!profile) {
-        console.log("herer");
         return await strapi.services.profile.create({
           name: `anon-${ctx.state.user.id}`,
           slug: `anon-${ctx.state.user.id}`,
