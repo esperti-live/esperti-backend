@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "sessions",
+  "info": {
+    "name": "session"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "user_profile": {
+      "model": "profile"
+    },
+    "expert_profile": {
+      "model": "profile"
+    },
+    "slug": {
+      "type": "string",
+      "unique": true
+    },
+    "time": {
+      "type": "integer",
+      "default": 0
+    },
+    "start_time": {
+      "type": "datetime"
+    },
+    "end_time": {
+      "type": "datetime"
+    },
+    "completed": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}
