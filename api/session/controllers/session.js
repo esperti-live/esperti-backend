@@ -1,10 +1,13 @@
 "use strict";
 const cryptoRandomString = require("crypto-random-string");
+const {
+  calculateTotalTime,
+  calculateTotalPayment,
+} = require("../../../helpers/payment");
 /**
  * Read the documentation (https://strapi.io/documentation/v3.x/concepts/controllers.html#core-controllers)
  * to customize this controller
  */
-const MINUMUM_SESSION_TIME = 15;
 
 module.exports = {
   /**
@@ -14,13 +17,34 @@ module.exports = {
   async isValid(ctx) {
     const { slug } = ctx.params;
     const entity = await strapi.services.session.findOne({ slug }, []);
-    if (entity && !entity.completed) {
+
+    if (!entity) {
+      return ctx.throw(400, "Session could not be found");
+    }
+
+    if (!entity.end_time) {
+      // session timer still running /  wasn't started yet.
       return { validSession: true, ...entity };
+    }
+
+    if (entity.end_time && !entity.completed) {
+      // this means that the session timer has stopped, but the review/payment was not yet finished.
+      const totalTime = calculateTotalTime(entity.time);
+
+      const expertProfile = await strapi.services.profile.findOne({
+        id: entity.expert_profile,
+      });
+
+      const paymentTotal = calculateTotalPayment(
+        entity.time,
+        expertProfile.rate
+      );
+
+      return { validSession: true, ...entity, totalTime, paymentTotal };
     }
 
     return { validSession: false };
   },
-
   async create(ctx) {
     const { user } = ctx.state; // user profile
     const { expert_id } = ctx.request.body;
@@ -99,7 +123,7 @@ module.exports = {
     return { sucess: true };
   },
 
-  async complete(ctx) {
+  async finish(ctx) {
     const { user } = ctx.state; // user profile
     const { slug } = ctx.params; // session slug
 
@@ -140,17 +164,18 @@ module.exports = {
     );
     await strapi.services.session.update(
       { slug },
-      { slug, end_time: endDate, time: timeInSeconds, completed: true }
+      { slug, end_time: endDate, time: timeInSeconds }
     );
 
     const expertName = entity.expert_profile.name;
     const expertSlug = entity.expert_profile.slug;
-    const totalTime =
-      Math.ceil(entity.time / 1000) < MINUMUM_SESSION_TIME
-        ? MINUMUM_SESSION_TIME
-        : Math.ceil(entity.time / 1000);
-    const paymentTotal =
-      (totalTime * entity.expert_profile.rate) / MINUMUM_SESSION_TIME;
+
+    const totalTime = calculateTotalTime(entity.time);
+    const paymentTotal = calculateTotalPayment(
+      entity.time,
+      entity.expert_profile.rate
+    );
+
     entity = await strapi.services.session.findOne({ slug }, []);
 
     return {

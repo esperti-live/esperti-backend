@@ -14,6 +14,16 @@ module.exports = {
       ctx.throw(400, "Provide a comment, rating and session id");
     }
 
+    const session = await strapi.services.session.findOne({ id: sessionId });
+    if (!session) {
+      ctx.throw(400, "Session with that id could not be found");
+    }
+
+    await strapi.services.session.update(
+      { id: sessionId },
+      { completed: true }
+    );
+
     const entity = await strapi.services.review.create({
       comment,
       rating,
