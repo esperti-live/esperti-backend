@@ -50,8 +50,8 @@
     },
     {
       "method": "POST",
-      "path": "/sessions/:slug/complete",
-      "handler": "session.complete",
+      "path": "/sessions/:slug/finish",
+      "handler": "session.finish",
       "config": {
         "policies": []
       }
