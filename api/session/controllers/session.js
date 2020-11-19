@@ -58,9 +58,7 @@ module.exports = {
       return ctx.throw(400, "No expert id present");
     }
 
-    const userProfile = await strapi.services.profile.findOne({
-      id: user.profile,
-    });
+    const userProfile = user.profile
 
     // Check if customer profile exists
     if (!userProfile) {
@@ -101,9 +99,7 @@ module.exports = {
     const { slug } = ctx.params; // session slug
 
     const entity = await strapi.services.session.findOne({ slug });
-    const userProfile = await strapi.services.profile.findOne({
-      id: user.profile,
-    });
+    const userProfile = user.profile
 
     if (!userProfile) {
       return ctx.throw(400, "No user can be found");
