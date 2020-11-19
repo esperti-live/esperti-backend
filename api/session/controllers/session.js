@@ -45,6 +45,10 @@ module.exports = {
 
     return { validSession: false };
   },
+  /**
+   * Create a session with User as the Student and Expert_id for the Expert
+   * @param {*} ctx 
+   */
   async create(ctx) {
     const { user } = ctx.state; // user profile
     const { expert_id } = ctx.request.body;
@@ -88,7 +92,10 @@ module.exports = {
     // Return newly created session.
     return await strapi.services.session.findOne({ slug }, []);
   },
-
+  /**
+   * Starts the session, verifies the user owns the session
+   * @param {*} ctx 
+   */
   async start(ctx) {
     const { user } = ctx.state; // user profile
     const { slug } = ctx.params; // session slug
@@ -122,7 +129,10 @@ module.exports = {
 
     return { sucess: true };
   },
-
+  /**
+   * Ends the session, ensures the session was started and was attached to the user
+   * @param {*} ctx 
+   */
   async finish(ctx) {
     const { user } = ctx.state; // user profile
     const { slug } = ctx.params; // session slug
