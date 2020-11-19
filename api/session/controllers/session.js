@@ -133,9 +133,7 @@ module.exports = {
     const { user } = ctx.state; // user profile
     const { slug } = ctx.params; // session slug
 
-    const userProfile = await strapi.services.profile.findOne({
-      id: user.profile,
-    });
+    const userProfile = user.profile
 
     if (!userProfile) {
       return ctx.throw(400, "No user can be found");
