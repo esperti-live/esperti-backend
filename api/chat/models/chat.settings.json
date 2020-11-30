@@ -1,0 +1,29 @@
+{
+  "kind": "collectionType",
+  "collectionName": "chats",
+  "info": {
+    "name": "chat"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "users": {
+      "plugin": "users-permissions",
+      "collection": "user",
+      "via": "chats",
+      "dominant": true
+    },
+    "chatId": {
+      "type": "string"
+    },
+    "people": {
+      "type": "json"
+    },
+    "lastMessage": {
+      "type": "string"
+    }
+  }
+}

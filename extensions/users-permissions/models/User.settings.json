@@ -56,6 +56,10 @@
     "profile": {
       "via": "user",
       "model": "profile"
+    },
+    "chats": {
+      "via": "users",
+      "collection": "chat"
     }
   }
 }
