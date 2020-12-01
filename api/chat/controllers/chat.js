@@ -57,6 +57,11 @@ module.exports = {
         otherId
     ]
 
+    const profiles = [
+        user.profile.id,
+        otherProfile.id
+    ]
+
     const myChats = await strapi.services.chat.find({
         users: [user.id],
         _limit: -1, //No limit
@@ -75,8 +80,8 @@ module.exports = {
 
     //People for easy way to show info, indexed by profile id
     const people = {
-        [user.id]: user.profile.name,
-        [otherProfile.user.id]: otherProfile.name
+        [profiles[0]]: user.profile.name,
+        [profiles[1]]: otherProfile.name
     }
 
     //save
@@ -84,7 +89,7 @@ module.exports = {
         people,
         users,
         lastMessage,
-        chatId: getChatId(users[0], users[1])
+        chatId: getChatId(profiles[0], profiles[1])
     })
 
     return newChat
