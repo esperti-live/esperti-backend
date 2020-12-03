@@ -2,11 +2,13 @@
   "kind": "collectionType",
   "collectionName": "reviews",
   "info": {
-    "name": "Review"
+    "name": "Review",
+    "description": ""
   },
   "options": {
     "increments": true,
-    "timestamps": true
+    "timestamps": true,
+    "draftAndPublish": false
   },
   "attributes": {
     "rating": {
@@ -22,7 +24,8 @@
       "via": "reviews"
     },
     "session": {
-      "model": "session"
+      "model": "session",
+      "via": "review"
     }
   }
 }

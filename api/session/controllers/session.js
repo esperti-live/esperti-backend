@@ -22,32 +22,42 @@ module.exports = {
       return ctx.throw(400, "Session could not be found");
     }
 
+    const expertProfile = await strapi.services.profile.findOne({
+      id: entity.expert_profile,
+    });
+
     if (!entity.end_time) {
       // session timer still running /  wasn't started yet.
-      return { validSession: true, ...entity };
+      return {
+        validSession: true,
+        ...entity,
+        expert_profile: { ...expertProfile },
+      };
     }
 
     if (entity.end_time && !entity.completed) {
       // this means that the session timer has stopped, but the review/payment was not yet finished.
       const totalTime = calculateTotalTime(entity.time);
 
-      const expertProfile = await strapi.services.profile.findOne({
-        id: entity.expert_profile,
-      });
-
       const paymentTotal = calculateTotalPayment(
         entity.time,
         expertProfile.rate
       );
 
-      return { validSession: true, ...entity, totalTime, paymentTotal };
+      return {
+        validSession: true,
+        ...entity,
+        totalTime,
+        paymentTotal,
+        expert_profile: { ...expertProfile },
+      };
     }
 
     return { validSession: false };
   },
   /**
    * Create a session with User as the Student and Expert_id for the Expert
-   * @param {*} ctx 
+   * @param {*} ctx
    */
   async create(ctx) {
     const { user } = ctx.state; // user profile
@@ -58,7 +68,7 @@ module.exports = {
       return ctx.throw(400, "No expert id present");
     }
 
-    const userProfile = user.profile
+    const userProfile = user.profile;
 
     // Check if customer profile exists
     if (!userProfile) {
@@ -92,14 +102,14 @@ module.exports = {
   },
   /**
    * Starts the session, verifies the user owns the session
-   * @param {*} ctx 
+   * @param {*} ctx
    */
   async start(ctx) {
     const { user } = ctx.state; // user profile
     const { slug } = ctx.params; // session slug
 
     const entity = await strapi.services.session.findOne({ slug });
-    const userProfile = user.profile
+    const userProfile = user.profile;
 
     if (!userProfile) {
       return ctx.throw(400, "No user can be found");
@@ -127,13 +137,13 @@ module.exports = {
   },
   /**
    * Ends the session, ensures the session was started and was attached to the user
-   * @param {*} ctx 
+   * @param {*} ctx
    */
   async finish(ctx) {
     const { user } = ctx.state; // user profile
     const { slug } = ctx.params; // session slug
 
-    const userProfile = user.profile
+    const userProfile = user.profile;
 
     if (!userProfile) {
       return ctx.throw(400, "No user can be found");
@@ -189,5 +199,26 @@ module.exports = {
       totalTime,
       paymentTotal,
     };
+  },
+  async summary(ctx) {
+    const { slug } = ctx.params; // session slug
+
+    console.log(slug);
+    let entity = await strapi.services.session.findOne({ slug });
+
+    console.log(entity);
+
+    // Checks that session exists
+    if (!entity) {
+      return ctx.throw(400, "Session could not be found");
+    }
+
+    const totalTime = calculateTotalTime(entity.time);
+    const paymentTotal = calculateTotalPayment(
+      entity.time,
+      entity.expert_profile.rate
+    );
+
+    return { ...entity, totalTime, paymentTotal };
   },
 };

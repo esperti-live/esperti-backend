@@ -2,8 +2,8 @@
   "routes": [
     {
       "method": "GET",
-      "path": "/sessions",
-      "handler": "session.find",
+      "path": "/sessions/:slug/summary",
+      "handler": "session.summary",
       "config": {
         "policies": []
       }

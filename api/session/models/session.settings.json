@@ -32,6 +32,10 @@
     "completed": {
       "type": "boolean",
       "default": false
+    },
+    "review": {
+      "via": "session",
+      "model": "review"
     }
   }
 }
