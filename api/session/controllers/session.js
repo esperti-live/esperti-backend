@@ -203,10 +203,7 @@ module.exports = {
   async summary(ctx) {
     const { slug } = ctx.params; // session slug
 
-    console.log(slug);
     let entity = await strapi.services.session.findOne({ slug });
-
-    console.log(entity);
 
     // Checks that session exists
     if (!entity) {
