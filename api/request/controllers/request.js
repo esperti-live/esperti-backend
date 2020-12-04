@@ -20,7 +20,6 @@ module.exports = {
     } else {
       entities = await strapi.services.request.find(ctx.query, ["tags"]);
     }
-
     return entities.map((entity) =>
       sanitizeEntity(entity, { model: strapi.models.request })
     );
@@ -50,6 +49,20 @@ module.exports = {
       profile: user.profile,
       slug,
     });
+    return sanitizeEntity(entity, { model: strapi.models.request });
+  },
+
+  async myRequests(ctx) {
+    const {
+      user: {
+        profile: { id },
+      },
+    } = ctx.state;
+
+    const entity = await strapi.services.request.find({ profile: id }, [
+      "tags",
+    ]);
+
     return sanitizeEntity(entity, { model: strapi.models.request });
   },
 };
